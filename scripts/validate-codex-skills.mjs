@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { homedir } from "node:os";
 import { dirname, join, relative, resolve } from "node:path";
 import process from "node:process";
 
@@ -37,13 +38,12 @@ const availableRequired = [
 
 const projectRoot = resolve(import.meta.dirname, "..");
 const projectSkills = join(projectRoot, ".codex", "skills");
-const globalSkills = "/root/.codex/skills";
-const githubPlugin =
-  "/root/.codex/plugins/cache/openai-curated-remote/github/0.1.8-2841cf9749ae/skills";
+const defaultCodexRoot = process.env.CODEX_HOME || join(homedir(), ".codex");
 const failures = [];
 const expected = new Set([...projectRequired, ...availableRequired]);
 
 function filesUnder(directory) {
+  if (!existsSync(directory)) return [];
   const files = [];
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
     const path = join(directory, entry.name);
@@ -53,16 +53,38 @@ function filesUnder(directory) {
   return files;
 }
 
-function resolveAvailable(name) {
+function resolveAvailable(name, codexRoot = defaultCodexRoot) {
+  const globalSkills = join(codexRoot, "skills");
+  const pluginCache = join(codexRoot, "plugins", "cache");
   const aliases =
     name === "design-taste-frontend" ? [name, "taste-skill"] : [name];
-  for (const root of [projectSkills, globalSkills, githubPlugin]) {
+  for (const root of [projectSkills, globalSkills]) {
     for (const alias of aliases) {
       const directory = join(root, alias);
       if (existsSync(join(directory, "SKILL.md"))) return directory;
     }
   }
+  for (const skillPath of filesUnder(pluginCache).filter((path) =>
+    path.endsWith("/SKILL.md"),
+  )) {
+    const directory = dirname(skillPath);
+    const declared = readFileSync(skillPath, "utf8").match(
+      /^name:\s*["']?([^"'\n]+)["']?\s*$/m,
+    )?.[1];
+    if (
+      aliases.includes(declared) ||
+      aliases.includes(directory.split("/").at(-1))
+    )
+      return directory;
+  }
   return null;
+}
+
+function availableExternalSkills(codexRoot = defaultCodexRoot) {
+  return availableRequired.flatMap((name) => {
+    const directory = resolveAvailable(name, codexRoot);
+    return directory ? [{ name, directory }] : [];
+  });
 }
 
 function validateSkill(name, directory) {
@@ -112,38 +134,44 @@ function validateSkill(name, directory) {
   }
 }
 
-for (const name of projectRequired) {
-  const directory = join(projectSkills, name);
-  if (!existsSync(join(directory, "SKILL.md")))
-    failures.push(`${name}: missing project-local installation`);
-  else validateSkill(name, directory);
+function main() {
+  for (const name of projectRequired) {
+    const directory = join(projectSkills, name);
+    if (!existsSync(join(directory, "SKILL.md")))
+      failures.push(`${name}: missing project-local installation`);
+    else validateSkill(name, directory);
+  }
+
+  const available = availableExternalSkills();
+  for (const { name, directory } of available) {
+    validateSkill(name, directory);
+  }
+
+  const lock = JSON.parse(
+    readFileSync(join(projectRoot, ".codex", "skills.lock.json"), "utf8"),
+  );
+  const locked = new Set([
+    ...Object.values(lock.projectLocal).flat(),
+    ...Object.values(lock.inheritedCodexNative).flat(),
+  ]);
+  for (const name of expected) {
+    if (!locked.has(name)) failures.push(`${name}: missing lock entry`);
+  }
+  for (const name of locked) {
+    if (!expected.has(name)) failures.push(`${name}: unexpected lock entry`);
+  }
+
+  if (failures.length) {
+    console.error(failures.join("\n"));
+    process.exitCode = 1;
+    return;
+  }
+
+  console.log(
+    `Validated ${projectRequired.size} project-local Codex skills; ${available.length} external skills available.`,
+  );
 }
 
-for (const name of availableRequired) {
-  const directory = resolveAvailable(name);
-  if (!directory) failures.push(`${name}: unavailable`);
-  else validateSkill(name, directory);
-}
+if (resolve(process.argv[1] ?? "") === import.meta.filename) main();
 
-const lock = JSON.parse(
-  readFileSync(join(projectRoot, ".codex", "skills.lock.json"), "utf8"),
-);
-const locked = new Set([
-  ...Object.values(lock.projectLocal).flat(),
-  ...Object.values(lock.inheritedCodexNative).flat(),
-]);
-for (const name of expected) {
-  if (!locked.has(name)) failures.push(`${name}: missing lock entry`);
-}
-for (const name of locked) {
-  if (!expected.has(name)) failures.push(`${name}: unexpected lock entry`);
-}
-
-if (failures.length) {
-  console.error(failures.join("\n"));
-  process.exit(1);
-}
-
-console.log(
-  `Validated ${projectRequired.size + availableRequired.length} Codex skills.`,
-);
+export { availableExternalSkills };
