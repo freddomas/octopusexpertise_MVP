@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Meme Skill"
+  short_description: "Maintain private project memory safely"
+  default_prompt: "Use $codex-meme-skill to recall or record durable project context."

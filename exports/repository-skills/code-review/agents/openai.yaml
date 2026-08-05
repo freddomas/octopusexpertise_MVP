@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Review"
+  short_description: "Review diffs for high-confidence defects"
+  default_prompt: "Use $code-review to review this change for high-confidence defects."
