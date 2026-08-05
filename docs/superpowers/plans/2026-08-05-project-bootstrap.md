@@ -22,7 +22,7 @@
 
 **Files:**
 
-- Create: `agents.md`
+- Create: `AGENTS.md`
 - Create: `.gitignore`
 - Create: `.nvmrc`
 - Create: `.env.example`

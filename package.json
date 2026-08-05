@@ -15,7 +15,7 @@
     "build": "npm run build --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
-    "format:check": "prettier --check apps docs README.md agents.md package.json compose.yaml",
+    "format:check": "prettier --check apps docs README.md AGENTS.md package.json compose.yaml",
     "db:up": "docker compose up -d postgres",
     "db:down": "docker compose down"
   },
