@@ -66,6 +66,9 @@ test("delivery gates are wired and protected", async () => {
     protection.required_pull_request_reviews.require_code_owner_reviews,
     false,
   );
+  assert.ok(
+    !("dismissal_restrictions" in protection.required_pull_request_reviews),
+  );
   assert.equal(protection.required_linear_history, true);
   assert.equal(protection.allow_force_pushes, false);
   assert.equal(protection.allow_deletions, false);
