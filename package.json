@@ -16,8 +16,9 @@
     "lint": "npm run lint --workspaces --if-present",
     "test": "npm run governance:test && npm run test --workspaces --if-present",
     "governance:test": "node --test tests/governance/*.test.mjs",
-    "verify": "npm run format:check && npm run skills:check && npm run lint && npm test && npm run build",
-    "format:check": "prettier --check apps docs README.md AGENTS.md package.json compose.yaml scripts/route-codex-skills.mjs tests/governance config .github",
+    "test:e2e": "npm run build --workspace @octopus/web && playwright test",
+    "verify": "npm run format:check && npm run skills:check && npm run lint && npm test && npm run build && npm run test:e2e",
+    "format:check": "prettier --check apps docs tests README.md AGENTS.md package.json playwright.config.ts compose.yaml scripts/route-codex-skills.mjs config .github",
     "skills:check": "node scripts/validate-codex-skills.mjs",
     "skills:route": "node scripts/route-codex-skills.mjs",
     "skills:route:test": "node --test tests/governance/skill-router.test.mjs",
@@ -25,6 +26,7 @@
     "db:down": "docker compose down"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.0",
     "concurrently": "^9.2.1",
     "prettier": "^3.6.2"
   }
