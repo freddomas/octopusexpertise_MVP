@@ -48,3 +48,7 @@ apps/
 
 Les visuels, la spécification et les exports fournis à la racine sont conservés
 comme artefacts pour les étapes produit ultérieures.
+
+## Documentation
+
+- [Configuration Graphify recommandée](docs/graphify-configuration.md)

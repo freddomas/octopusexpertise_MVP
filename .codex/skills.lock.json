@@ -1,0 +1,42 @@
+{
+  "updatedAt": "2026-08-05",
+  "projectLocal": {
+    "coreyhaines31/marketingskills@7868cb9251fad80a73d26e488a5ad5f6c4a9f335": [
+      "ai-seo",
+      "content-strategy",
+      "copywriting",
+      "programmatic-seo",
+      "schema",
+      "seo-audit",
+      "site-architecture"
+    ],
+    "obra/superpowers@44c9b2d6e889982ac18c27d05a19fefe335194e1": [
+      "brainstorming",
+      "dispatching-parallel-agents",
+      "receiving-code-review",
+      "requesting-code-review",
+      "subagent-driven-development",
+      "systematic-debugging",
+      "test-driven-development",
+      "using-git-worktrees",
+      "verification-before-completion",
+      "writing-plans"
+    ],
+    "openai/skills@49f948faa9258a0c61caceaf225e179651397431": [
+      "gh-address-comments",
+      "gh-fix-ci"
+    ],
+    "pbakaus/impeccable@ae5e95101a6979e7f7973a4ff57680b3c7adc1ec": [
+      "impeccable"
+    ]
+  },
+  "inheritedCodexNative": {
+    "global": [
+      "code-review",
+      "codex-meme-skill",
+      "design-taste-frontend",
+      "frontend-design"
+    ],
+    "githubPlugin@0.1.8-2841cf9749ae": ["github"]
+  }
+}

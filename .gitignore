@@ -16,6 +16,8 @@ coverage/
 .tokensave/
 .rtk/
 .headroom/
+.codex-local/
+graphify-out/
 
 # Editors and operating systems
 .DS_Store
