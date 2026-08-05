@@ -178,6 +178,7 @@ a {
 }
 
 .brand-mark {
+  position: relative;
   width: 8rem;
   height: 3rem;
   overflow: hidden;

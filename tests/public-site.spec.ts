@@ -118,6 +118,7 @@ test.describe("public website", () => {
 
     const layout = await page.evaluate(() => {
       const brand = document.querySelector(".brand-mark")!;
+      const brandImage = brand.querySelector("img")!;
       const nav = document.querySelector(".desktop-nav a")!;
       const heroTitle = document.querySelector(".hero h1")!;
       const leftHand = document.querySelector(".hero-hand-left")!;
@@ -126,6 +127,7 @@ test.describe("public website", () => {
       const wordmark = document.querySelector(".footer-wordmark")!;
       const wave = document.querySelector(".hero-depth-waves > span")!;
       const brandBox = brand.getBoundingClientRect();
+      const brandImageBox = brandImage.getBoundingClientRect();
       const leftBox = leftHand.getBoundingClientRect();
       const rightBox = rightHand.getBoundingClientRect();
       const navSize = Number.parseFloat(getComputedStyle(nav).fontSize);
@@ -133,6 +135,9 @@ test.describe("public website", () => {
 
       return {
         brandWidth: brandBox.width,
+        brandHeight: brandBox.height,
+        brandImageWidth: brandImageBox.width,
+        brandImageHeight: brandImageBox.height,
         typeRatio: heroSize / navSize,
         handGap: rightBox.left - leftBox.right,
         sectionPadding: Number.parseFloat(getComputedStyle(section).paddingTop),
@@ -142,6 +147,8 @@ test.describe("public website", () => {
     });
 
     expect(layout.brandWidth).toBeGreaterThanOrEqual(48);
+    expect(layout.brandImageWidth).toBe(layout.brandWidth);
+    expect(layout.brandImageHeight).toBe(layout.brandHeight);
     expect(layout.typeRatio).toBeLessThanOrEqual(7);
     expect(layout.handGap).toBeLessThanOrEqual(280);
     expect(layout.sectionPadding).toBeLessThanOrEqual(128);

@@ -45,8 +45,8 @@ export function SiteHeader({ locale }: { locale: Locale }) {
             <Image
               src="/octopus-expertise-logo.webp"
               alt=""
-              width={52}
-              height={52}
+              fill
+              sizes="128px"
               priority
             />
           </span>
