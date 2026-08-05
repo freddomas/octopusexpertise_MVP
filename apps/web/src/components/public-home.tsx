@@ -47,6 +47,11 @@ export function PublicHome({ locale }: { locale: Locale }) {
       <main>
         <section className="hero section-shell">
           <div className="hero-atmosphere" aria-hidden="true" />
+          <div className="hero-depth-waves" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
           <div className="hero-hand hero-hand-left" aria-hidden="true" />
           <div className="hero-hand hero-hand-right" aria-hidden="true" />
           <div className="hero-grid" aria-hidden="true" />
@@ -279,10 +284,45 @@ export function PublicHome({ locale }: { locale: Locale }) {
             <p data-reveal>{copy.territoryText}</p>
           </div>
           <div className="territory-map" data-reveal aria-hidden="true">
-            <span className="map-label label-lualaba">Lualaba</span>
-            <span className="map-label label-katanga">Haut-Katanga</span>
-            <span className="map-signal signal-one" />
-            <span className="map-signal signal-two" />
+            <svg
+              className="drc-map"
+              data-drc-map
+              viewBox="0 0 640 520"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                className="drc-outline"
+                d="M116 181 96 160l29-25 35 5 20-23 42 7 29-24 40 16 36-21 36 16 38-10 31 19 12 28 39 10 10 30 36 15-13 32 27 23-20 29 8 31-24 20-2 32-28 17-15 40-27 22-29-11-18 34-34-8-17-35-39 8-25-27-38-3-15-32-36-10-3-37-36-18-21 16-36-10-26-28 10-25 33-5 21-24-22-23 13-32-22-23 12-30Z"
+              />
+              <path
+                className="drc-river"
+                d="M425 154c-62 31-68 85-117 99-52 15-97-16-135 7-26 16-35 35-72 31"
+              />
+              <g className="map-location location-kinshasa">
+                <circle className="map-halo" cx="104" cy="291" r="18" />
+                <circle className="map-dot" cx="104" cy="291" r="5" />
+                <text x="75" y="324">
+                  Kinshasa
+                </text>
+              </g>
+              <g className="map-location location-lualaba">
+                <circle className="map-halo" cx="348" cy="401" r="18" />
+                <circle className="map-dot" cx="348" cy="401" r="5" />
+                <text x="276" y="433">
+                  Lualaba
+                </text>
+              </g>
+              <g className="map-location location-katanga">
+                <circle className="map-halo" cx="438" cy="425" r="18" />
+                <circle className="map-dot" cx="438" cy="425" r="5" />
+                <text x="455" y="432">
+                  Haut-Katanga
+                </text>
+              </g>
+            </svg>
+            <span className="map-caption">
+              République démocratique du Congo
+            </span>
           </div>
         </section>
 

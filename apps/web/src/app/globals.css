@@ -10,7 +10,7 @@
   --muted: #8d8d99;
   --line: rgba(255, 255, 255, 0.1);
   --gutter: clamp(1.25rem, 4vw, 4rem);
-  --section: clamp(7rem, 13vw, 12rem);
+  --section: clamp(4.5rem, 8vw, 7rem);
   --max: 90rem;
   --page-scroll: 0;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
@@ -160,6 +160,8 @@ a {
 }
 
 .header-inner {
+  position: relative;
+  z-index: 2;
   width: min(100%, var(--max));
   min-height: 3rem;
   margin-inline: auto;
@@ -176,24 +178,26 @@ a {
 }
 
 .brand-mark {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 8rem;
+  height: 3rem;
   overflow: hidden;
   display: grid;
   place-items: center;
-  border-radius: 50%;
+  border-radius: 0;
 }
 
 .brand-mark img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(0.85);
+  filter: saturate(1.35) brightness(1.65) contrast(1.15)
+    drop-shadow(0 0 8px rgba(96, 165, 250, 0.25));
 }
 
 .brand-name {
+  display: none;
   font-family: "Playfair Display", Georgia, serif;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 600;
   letter-spacing: -0.035em;
 }
@@ -211,7 +215,7 @@ a {
 .language-link {
   position: relative;
   color: rgba(255, 255, 255, 0.48);
-  font-size: 0.72rem;
+  font-size: 0.84rem;
   font-weight: 500;
   white-space: nowrap;
   transition: color 0.3s;
@@ -351,7 +355,7 @@ a {
 .mobile-nav {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 1;
   padding: 7rem var(--gutter) 2rem;
   display: flex;
   flex-direction: column;
@@ -362,7 +366,7 @@ a {
       rgba(124, 58, 237, 0.25),
       transparent 36%
     ),
-    var(--bg);
+    #050505;
   animation: menu-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
@@ -407,8 +411,8 @@ a {
 .hero {
   position: relative;
   min-height: max(48rem, 100svh);
-  padding-top: clamp(9rem, 18vh, 12rem);
-  padding-bottom: 7rem;
+  padding-top: clamp(8rem, 15vh, 10rem);
+  padding-bottom: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -448,6 +452,69 @@ a {
   mask-image: linear-gradient(180deg, transparent, #000 30%, transparent 88%);
 }
 
+.hero-depth-waves {
+  position: absolute;
+  inset: 38% calc(50% - 50vw) 0;
+  z-index: -2;
+  overflow: hidden;
+  opacity: 0.34;
+  mask-image: linear-gradient(
+    180deg,
+    transparent,
+    #000 18%,
+    #000 72%,
+    transparent
+  );
+}
+
+.hero-depth-waves span {
+  --wave-y: 0rem;
+  --wave-scale: 1;
+  position: absolute;
+  left: -10%;
+  width: 120%;
+  height: 18rem;
+  border-top: 1px solid rgba(165, 180, 252, 0.38);
+  border-radius: 50%;
+  animation: underwater-wave 18s ease-in-out infinite alternate;
+}
+
+.hero-depth-waves span:nth-child(1) {
+  top: 8%;
+}
+
+.hero-depth-waves span:nth-child(2) {
+  --wave-y: 6rem;
+  --wave-scale: 0.86;
+  top: 27%;
+  border-color: rgba(96, 165, 250, 0.3);
+  animation-duration: 23s;
+  animation-delay: -8s;
+}
+
+.hero-depth-waves span:nth-child(3) {
+  --wave-y: 12rem;
+  --wave-scale: 1.12;
+  top: 46%;
+  border-color: rgba(196, 181, 253, 0.22);
+  animation-duration: 28s;
+  animation-delay: -14s;
+}
+
+@keyframes underwater-wave {
+  0% {
+    transform: translate3d(-3%, var(--wave-y), 0) scaleY(var(--wave-scale));
+  }
+  50% {
+    transform: translate3d(2%, calc(var(--wave-y) - 1.3rem), 0)
+      scaleY(var(--wave-scale));
+  }
+  100% {
+    transform: translate3d(5%, calc(var(--wave-y) + 0.6rem), 0)
+      scaleY(var(--wave-scale));
+  }
+}
+
 .hero-hand {
   position: absolute;
   z-index: -1;
@@ -461,8 +528,8 @@ a {
 }
 
 .hero-hand-left {
-  left: max(-12rem, -10vw);
-  top: max(-10rem, -13vh);
+  left: 0;
+  top: max(-8rem, -10vh);
   width: min(44vw, 49rem);
   aspect-ratio: 1540 / 1320;
   background-image: url("/deep-blue-hand-left.png");
@@ -470,9 +537,9 @@ a {
 }
 
 .hero-hand-right {
-  right: max(-10rem, -8vw);
-  bottom: max(-8rem, -9vh);
-  width: min(39vw, 43rem);
+  right: 0;
+  bottom: max(-4rem, -5vh);
+  width: min(43vw, 47rem);
   aspect-ratio: 1542 / 1002;
   background-image: url("/deep-blue-hand-right.png");
   animation: float-right 14s ease-in-out infinite;
@@ -526,7 +593,7 @@ a {
 .content-hero h1 {
   margin: 0;
   font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(3.4rem, 7.2vw, 7.6rem);
+  font-size: clamp(3.4rem, 6vw, 6.2rem);
   font-weight: 500;
   letter-spacing: -0.055em;
   line-height: 0.99;
@@ -606,7 +673,7 @@ a {
 .proof-rail {
   position: relative;
   z-index: 2;
-  padding: 4rem var(--gutter);
+  padding: 2.8rem var(--gutter);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
@@ -690,7 +757,7 @@ a {
 }
 
 .pillar-grid {
-  margin-top: clamp(5rem, 9vw, 8rem);
+  margin-top: clamp(3rem, 5vw, 5rem);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   border-top: 1px solid var(--line);
@@ -761,7 +828,7 @@ a {
 }
 
 .orchestration-console {
-  margin-top: clamp(4rem, 7vw, 6rem);
+  margin-top: clamp(3rem, 5vw, 4.5rem);
   display: grid;
   grid-template-columns: minmax(15rem, 0.72fr) minmax(20rem, 1.28fr);
   min-height: 38rem;
@@ -909,7 +976,7 @@ a {
 }
 
 .capability-grid {
-  margin: clamp(5rem, 8vw, 7rem) auto 4rem;
+  margin: clamp(3rem, 5vw, 5rem) auto 2rem;
   max-width: 68rem;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1038,7 +1105,7 @@ a {
 
 .sector-marquee {
   width: max-content;
-  margin-top: 6rem;
+  margin-top: 3.5rem;
   display: flex;
   animation: marquee 38s linear infinite;
 }
@@ -1073,7 +1140,7 @@ a {
 }
 
 .method-list {
-  margin-top: 5rem;
+  margin-top: 3.5rem;
   border-top: 1px solid var(--line);
 }
 
@@ -1299,9 +1366,9 @@ a {
   position: relative;
   background-image:
     radial-gradient(
-      circle at 48% 54%,
-      rgba(37, 99, 235, 0.28),
-      transparent 2rem
+      circle at 58% 56%,
+      rgba(37, 99, 235, 0.18),
+      transparent 15rem
     ),
     linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
@@ -1311,61 +1378,77 @@ a {
     2rem 2rem;
 }
 
-.territory-map::before {
-  content: "";
+.drc-map {
   position: absolute;
-  inset: 11% 16%;
-  border: 1px solid rgba(124, 58, 237, 0.42);
-  border-radius: 46% 54% 58% 42% / 38% 32% 68% 62%;
-  transform: rotate(-12deg);
-  box-shadow: inset 0 0 70px rgba(37, 99, 235, 0.08);
+  inset: 6% 4% 2%;
+  width: 92%;
+  height: 90%;
+  overflow: visible;
 }
 
-.map-label {
+.drc-outline {
+  fill: rgba(37, 99, 235, 0.08);
+  stroke: rgba(165, 180, 252, 0.58);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 28px rgba(37, 99, 235, 0.28));
+}
+
+.drc-river {
+  fill: none;
+  stroke: rgba(96, 165, 250, 0.28);
+  stroke-width: 2;
+  stroke-dasharray: 5 9;
+}
+
+.map-dot {
+  fill: #c4b5fd;
+  filter: drop-shadow(0 0 8px #818cf8);
+}
+
+.map-halo {
+  fill: none;
+  stroke: rgba(129, 140, 248, 0.62);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: map-spark 2.8s ease-out infinite;
+}
+
+.location-lualaba .map-halo {
+  animation-delay: -0.9s;
+}
+
+.location-katanga .map-halo {
+  animation-delay: -1.8s;
+}
+
+.map-location text {
+  fill: rgba(255, 255, 255, 0.78);
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+.map-caption {
   position: absolute;
-  z-index: 2;
-  padding: 0.5rem 0.8rem;
-  border: 1px solid var(--line);
-  border-radius: 99px;
-  background: rgba(5, 5, 5, 0.8);
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.64rem;
+  left: 1.5rem;
+  top: 1.5rem;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
-.label-lualaba {
-  left: 27%;
-  top: 58%;
-}
-
-.label-katanga {
-  right: 18%;
-  top: 37%;
-}
-
-.map-signal {
-  position: absolute;
-  width: 0.65rem;
-  height: 0.65rem;
-  border-radius: 50%;
-  background: #818cf8;
-  box-shadow: 0 0 0 0 rgba(129, 140, 248, 0.4);
-  animation: map-ping 2.2s ease-out infinite;
-}
-
-.signal-one {
-  left: 43%;
-  top: 52%;
-}
-
-.signal-two {
-  right: 35%;
-  top: 43%;
-  animation-delay: 0.8s;
-}
-
-@keyframes map-ping {
-  to {
-    box-shadow: 0 0 0 2.5rem rgba(129, 140, 248, 0);
+@keyframes map-spark {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.3);
+  }
+  75%,
+  100% {
+    opacity: 0;
+    transform: scale(2.5);
   }
 }
 
@@ -1457,7 +1540,7 @@ a {
 }
 
 .quality-grid {
-  margin-top: 5rem;
+  margin-top: 3.5rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   border-top: 1px solid var(--line);
@@ -1562,7 +1645,7 @@ a {
 
 .site-footer {
   position: relative;
-  padding: 7rem var(--gutter) 0;
+  padding: 5rem var(--gutter) 0;
   overflow: hidden;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   background: var(--bg);
@@ -1584,7 +1667,7 @@ a {
   margin-inline: auto;
   display: grid;
   grid-template-columns: 1.5fr 0.8fr 0.6fr;
-  gap: 4rem;
+  gap: 3rem;
 }
 
 .footer-brand {
@@ -1631,7 +1714,7 @@ a {
 .footer-bottom {
   position: relative;
   width: min(100%, var(--max));
-  margin: 6rem auto 0;
+  margin: 4rem auto 0;
   padding-top: 1.3rem;
   display: flex;
   justify-content: space-between;
@@ -1651,14 +1734,17 @@ a {
 }
 
 .footer-wordmark {
-  margin: 4rem -0.06em -0.14em;
-  color: rgba(255, 255, 255, 0.035);
+  width: min(100%, var(--max));
+  margin: 3rem auto 0;
+  padding: 1.25rem 0 1.5rem;
+  border-top: 1px solid rgba(129, 140, 248, 0.16);
+  color: rgba(233, 231, 255, 0.08);
   font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(7rem, 24vw, 24rem);
-  font-weight: 600;
-  line-height: 0.7;
-  letter-spacing: -0.08em;
-  text-align: center;
+  font-size: clamp(3.5rem, 8vw, 8rem);
+  font-weight: 500;
+  line-height: 0.85;
+  letter-spacing: -0.045em;
+  text-align: left;
   white-space: nowrap;
 }
 
@@ -1819,14 +1905,14 @@ a {
 
 @media (max-width: 62rem) {
   .hero-hand-left {
-    left: -12rem;
+    left: -6rem;
     top: -6rem;
     width: 37rem;
     opacity: 0.55;
   }
 
   .hero-hand-right {
-    right: -11rem;
+    right: -5.5rem;
     bottom: -3rem;
     width: 32rem;
     opacity: 0.55;
@@ -1895,15 +1981,11 @@ a {
 
 @media (max-width: 42rem) {
   :root {
-    --section: 6.5rem;
+    --section: 4.75rem;
   }
 
   .site-header {
     padding-top: 0.9rem;
-  }
-
-  .brand-name {
-    display: none;
   }
 
   .login-link,
@@ -1927,14 +2009,14 @@ a {
   }
 
   .hero-hand-left {
-    left: -12rem;
+    left: -7rem;
     top: 1rem;
     width: 27rem;
     opacity: 0.42;
   }
 
   .hero-hand-right {
-    right: -10rem;
+    right: -5rem;
     bottom: 2rem;
     width: 24rem;
     opacity: 0.42;
@@ -2051,7 +2133,7 @@ a {
   }
 
   .footer-wordmark {
-    font-size: 29vw;
+    font-size: 17vw;
   }
 
   .content-hero {

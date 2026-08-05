@@ -92,6 +92,61 @@ test.describe("public website", () => {
     await expect(
       page.getByRole("link", { name: "Méthode", exact: true }).last(),
     ).toBeVisible();
+
+    const menuSurface = await page
+      .getByRole("navigation", { name: "Navigation mobile" })
+      .evaluate((node) => {
+        const styles = getComputedStyle(node);
+        return {
+          backgroundColor: styles.backgroundColor,
+          zIndex: Number(styles.zIndex),
+        };
+      });
+
+    expect(menuSurface.backgroundColor).toBe("rgb(5, 5, 5)");
+    expect(menuSurface.zIndex).toBeGreaterThan(0);
+  });
+
+  test("balances the landing page art direction", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/fr");
+
+    await expect(page.locator(".hero-depth-waves > span")).toHaveCount(3);
+    await expect(page.locator("[data-drc-map]")).toBeVisible();
+    await expect(page.locator(".map-location")).toHaveCount(3);
+    await expect(page.getByText("Kinshasa", { exact: true })).toBeVisible();
+
+    const layout = await page.evaluate(() => {
+      const brand = document.querySelector(".brand-mark")!;
+      const nav = document.querySelector(".desktop-nav a")!;
+      const heroTitle = document.querySelector(".hero h1")!;
+      const leftHand = document.querySelector(".hero-hand-left")!;
+      const rightHand = document.querySelector(".hero-hand-right")!;
+      const section = document.querySelector(".value-section")!;
+      const wordmark = document.querySelector(".footer-wordmark")!;
+      const wave = document.querySelector(".hero-depth-waves > span")!;
+      const brandBox = brand.getBoundingClientRect();
+      const leftBox = leftHand.getBoundingClientRect();
+      const rightBox = rightHand.getBoundingClientRect();
+      const navSize = Number.parseFloat(getComputedStyle(nav).fontSize);
+      const heroSize = Number.parseFloat(getComputedStyle(heroTitle).fontSize);
+
+      return {
+        brandWidth: brandBox.width,
+        typeRatio: heroSize / navSize,
+        handGap: rightBox.left - leftBox.right,
+        sectionPadding: Number.parseFloat(getComputedStyle(section).paddingTop),
+        wordmarkSize: Number.parseFloat(getComputedStyle(wordmark).fontSize),
+        waveAnimation: getComputedStyle(wave).animationName,
+      };
+    });
+
+    expect(layout.brandWidth).toBeGreaterThanOrEqual(48);
+    expect(layout.typeRatio).toBeLessThanOrEqual(7);
+    expect(layout.handGap).toBeLessThanOrEqual(280);
+    expect(layout.sectionPadding).toBeLessThanOrEqual(128);
+    expect(layout.wordmarkSize).toBeLessThanOrEqual(144);
+    expect(layout.waveAnimation).toContain("underwater-wave");
   });
 
   test("honours reduced motion", async ({ page }) => {
