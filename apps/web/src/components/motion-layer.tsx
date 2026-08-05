@@ -25,30 +25,16 @@ export function MotionLayer() {
     reveals.forEach((node) => observer.observe(node));
 
     const root = document.documentElement;
-    const onPointer = (event: PointerEvent) => {
-      root.style.setProperty("--pointer-x", `${event.clientX}px`);
-      root.style.setProperty("--pointer-y", `${event.clientY}px`);
-      root.style.setProperty(
-        "--pointer-nx",
-        `${event.clientX / window.innerWidth - 0.5}`,
-      );
-      root.style.setProperty(
-        "--pointer-ny",
-        `${event.clientY / window.innerHeight - 0.5}`,
-      );
-    };
     const onScroll = () =>
       root.style.setProperty("--page-scroll", `${window.scrollY}`);
 
     if (!media.matches) {
-      window.addEventListener("pointermove", onPointer, { passive: true });
       window.addEventListener("scroll", onScroll, { passive: true });
     }
 
     return () => {
       media.removeEventListener("change", sync);
       observer.disconnect();
-      window.removeEventListener("pointermove", onPointer);
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
@@ -60,7 +46,6 @@ export function MotionLayer() {
       data-motion={reduced ? "reduced" : "full"}
       aria-hidden="true"
     >
-      <span className="cursor-aura" />
       <span className="ambient ambient-one" />
       <span className="ambient ambient-two" />
       <span className="noise" />
