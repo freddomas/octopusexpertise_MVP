@@ -1,0 +1,671 @@
+{
+  "version": 1,
+  "capabilities": {
+    "implementation": {
+      "any": [
+        "corrige",
+        "repare",
+        "fixe",
+        "fix",
+        "implemente",
+        "implement",
+        "mets en place",
+        "met en place",
+        "developpe",
+        "develop a feature",
+        "develop the feature",
+        "ameliore",
+        "improve",
+        "ajoute une fonctionnalite",
+        "add feature",
+        "ajoute du code",
+        "add code",
+        "construis",
+        "build a feature",
+        "build the feature",
+        "refactorise",
+        "refactor",
+        "modifie le code",
+        "update the code",
+        "supprime du code",
+        "remove code"
+      ],
+      "none": [
+        "analyse seulement",
+        "diagnostique seulement",
+        "sans modifier",
+        "documentation uniquement",
+        "texte uniquement",
+        "skill.md",
+        "skill codex",
+        "nouvelle skill",
+        "orchestrateur de skill",
+        "routage des skills"
+      ]
+    }
+  },
+  "routes": [
+    {
+      "id": "skill-authoring",
+      "priority": 140,
+      "match": {
+        "any": [
+          "skill.md",
+          "skill codex",
+          "creer une skill",
+          "modifier une skill",
+          "orchestrateur de skill",
+          "orchestrateur de skills",
+          "routage des skills"
+        ]
+      },
+      "select": [
+        { "skill": "skill-creator", "mode": "full" },
+        { "skill": "writing-skills", "mode": "full" }
+      ]
+    },
+    {
+      "id": "google-drive-comments",
+      "priority": 137,
+      "match": {
+        "any": [
+          "commentaire google docs",
+          "commentaire drive",
+          "reponds au commentaire du doc",
+          "resous le commentaire du doc"
+        ]
+      },
+      "select": [
+        { "skill": "google-drive:google-drive-comments", "mode": "full" }
+      ]
+    },
+    {
+      "id": "github-ci",
+      "priority": 135,
+      "match": {
+        "any": [
+          "github actions",
+          "check github",
+          "ci echoue",
+          "ci failed",
+          "pipeline github"
+        ]
+      },
+      "select": [{ "skill": "gh-fix-ci", "mode": "full" }]
+    },
+    {
+      "id": "github-comments",
+      "priority": 134,
+      "match": {
+        "any": [
+          "commentaires de pr",
+          "review comments",
+          "retours de revue",
+          "address comments"
+        ]
+      },
+      "select": [{ "skill": "gh-address-comments", "mode": "full" }]
+    },
+    {
+      "id": "github-publish",
+      "priority": 132,
+      "match": {
+        "any": [
+          "publie sur github",
+          "push sur github",
+          "ouvre une pr",
+          "cree une pull request",
+          "draft pr"
+        ]
+      },
+      "select": [{ "skill": "github:yeet", "mode": "full" }]
+    },
+    {
+      "id": "google-sheets",
+      "priority": 130,
+      "match": {
+        "any": [
+          "google sheets",
+          "feuille de calcul",
+          "spreadsheet",
+          "formule sheets"
+        ]
+      },
+      "select": [{ "skill": "google-drive:google-sheets", "mode": "full" }]
+    },
+    {
+      "id": "google-slides",
+      "priority": 130,
+      "match": {
+        "any": ["google slides", "presentation google", "deck slides"]
+      },
+      "select": [{ "skill": "google-drive:google-slides", "mode": "full" }]
+    },
+    {
+      "id": "google-docs",
+      "priority": 130,
+      "match": { "any": ["google docs", "document google", "editer le doc"] },
+      "select": [{ "skill": "google-drive:google-docs", "mode": "full" }]
+    },
+    {
+      "id": "openai-docs",
+      "priority": 128,
+      "match": {
+        "any": [
+          "api openai",
+          "documentation openai",
+          "codex cli",
+          "responses api",
+          "agents sdk"
+        ]
+      },
+      "select": [{ "skill": "openai-docs", "mode": "full" }]
+    },
+    {
+      "id": "image-generation",
+      "priority": 126,
+      "match": {
+        "any": [
+          "genere une image",
+          "cree une image",
+          "edite cette image",
+          "retouche l'image",
+          "imagegen"
+        ]
+      },
+      "select": [{ "skill": "imagegen", "mode": "full" }]
+    },
+    {
+      "id": "code-review",
+      "priority": 124,
+      "match": {
+        "any": [
+          "revue de code",
+          "review ce code",
+          "review la pr",
+          "audit du diff",
+          "code review"
+        ]
+      },
+      "select": [{ "skill": "code-review", "mode": "full" }]
+    },
+    {
+      "id": "receiving-code-review",
+      "priority": 123,
+      "match": {
+        "any": [
+          "feedback de code review",
+          "suggestion de review",
+          "retour technique de revue",
+          "applique ce feedback"
+        ]
+      },
+      "select": [{ "skill": "receiving-code-review", "mode": "full" }]
+    },
+    {
+      "id": "requesting-code-review",
+      "priority": 123,
+      "match": {
+        "any": [
+          "demande une revue",
+          "fais relire l'implementation",
+          "revue avant merge",
+          "verification par reviewer"
+        ]
+      },
+      "select": [{ "skill": "requesting-code-review", "mode": "full" }]
+    },
+    {
+      "id": "architecture",
+      "priority": 122,
+      "match": {
+        "any": [
+          "architecture du code",
+          "relation entre fichiers",
+          "dependances du code",
+          "trace le flux",
+          "explore le codebase",
+          "graphify"
+        ]
+      },
+      "select": [{ "skill": "graphify", "mode": "full" }]
+    },
+    {
+      "id": "finishing-branch",
+      "priority": 121,
+      "match": {
+        "any": [
+          "termine la branche",
+          "branche prete a merger",
+          "integre la branche",
+          "nettoie la branche de travail"
+        ]
+      },
+      "select": [{ "skill": "finishing-a-development-branch", "mode": "full" }]
+    },
+    {
+      "id": "debugging",
+      "priority": 120,
+      "match": {
+        "any": [
+          "bug",
+          "erreur",
+          "echec de test",
+          "test echoue",
+          "ne fonctionne pas",
+          "corrige",
+          "diagnostique",
+          "cause racine"
+        ]
+      },
+      "select": [{ "skill": "systematic-debugging", "mode": "full" }]
+    },
+    {
+      "id": "frontend-motion",
+      "priority": 118,
+      "match": {
+        "any": [
+          "framer motion",
+          "motion component",
+          "animatepresence",
+          "variants motion"
+        ]
+      },
+      "select": [{ "skill": "framer-motion", "mode": "full" }]
+    },
+    {
+      "id": "frontend-interactions",
+      "priority": 117,
+      "match": {
+        "any": [
+          "micro-interaction",
+          "interaction hover",
+          "interaction press",
+          "polish des transitions",
+          "feedback d'interaction"
+        ]
+      },
+      "select": [{ "skill": "emil-design-eng", "mode": "full" }]
+    },
+    {
+      "id": "frontend-new-product",
+      "priority": 116,
+      "match": {
+        "any": [
+          "nouveau dashboard",
+          "nouvelle app",
+          "nouvelle interface produit",
+          "outil interne",
+          "product ui"
+        ]
+      },
+      "select": [{ "skill": "frontend-design", "mode": "full" }]
+    },
+    {
+      "id": "landing-design",
+      "priority": 115,
+      "match": {
+        "any": [
+          "landing page",
+          "page marketing",
+          "portfolio",
+          "nouvelle direction visuelle"
+        ]
+      },
+      "select": [{ "skill": "design-taste-frontend", "mode": "full" }]
+    },
+    {
+      "id": "frontend-polish",
+      "priority": 114,
+      "match": {
+        "any": [
+          "interface existante",
+          "audite l'interface",
+          "ameliore l'interface",
+          "accessibilite",
+          "responsive",
+          "polish frontend",
+          "ux existante"
+        ]
+      },
+      "select": [{ "skill": "impeccable", "mode": "full" }]
+    },
+    {
+      "id": "programmatic-seo",
+      "priority": 112,
+      "match": {
+        "any": [
+          "seo programmatique",
+          "pages a l'echelle",
+          "template seo",
+          "directory pages",
+          "location pages"
+        ]
+      },
+      "select": [{ "skill": "programmatic-seo", "mode": "full" }]
+    },
+    {
+      "id": "ai-seo",
+      "priority": 111,
+      "match": {
+        "any": [
+          "ai seo",
+          "aeo",
+          "geo seo",
+          "llmo",
+          "answer engine",
+          "cite par les llm"
+        ]
+      },
+      "select": [{ "skill": "ai-seo", "mode": "full" }]
+    },
+    {
+      "id": "schema-markup",
+      "priority": 110,
+      "match": {
+        "any": [
+          "schema.org",
+          "json-ld",
+          "donnees structurees",
+          "rich snippets",
+          "schema markup"
+        ]
+      },
+      "select": [{ "skill": "schema", "mode": "full" }]
+    },
+    {
+      "id": "site-architecture",
+      "priority": 109,
+      "match": {
+        "any": [
+          "sitemap",
+          "architecture du site",
+          "hierarchie des pages",
+          "maillage interne",
+          "structure des urls"
+        ]
+      },
+      "select": [{ "skill": "site-architecture", "mode": "full" }]
+    },
+    {
+      "id": "seo-audit",
+      "priority": 108,
+      "match": {
+        "any": [
+          "audit seo",
+          "seo technique",
+          "probleme seo",
+          "meta tags",
+          "pourquoi je ne ranke pas"
+        ]
+      },
+      "select": [{ "skill": "seo-audit", "mode": "full" }]
+    },
+    {
+      "id": "copywriting",
+      "priority": 106,
+      "match": {
+        "any": [
+          "copywriting",
+          "reecris la page",
+          "texte marketing",
+          "headline",
+          "cta",
+          "accroche marketing"
+        ]
+      },
+      "select": [{ "skill": "copywriting", "mode": "full" }]
+    },
+    {
+      "id": "content-strategy",
+      "priority": 105,
+      "match": {
+        "any": [
+          "strategie de contenu",
+          "calendrier editorial",
+          "idees de contenu",
+          "quoi ecrire"
+        ]
+      },
+      "select": [{ "skill": "content-strategy", "mode": "full" }]
+    },
+    {
+      "id": "product-marketing",
+      "priority": 104,
+      "match": {
+        "any": [
+          "positionnement produit",
+          "product marketing",
+          "contexte marketing",
+          "persona cible"
+        ]
+      },
+      "select": [{ "skill": "product-marketing", "mode": "full" }]
+    },
+    {
+      "id": "marketing-plan",
+      "priority": 103,
+      "match": {
+        "any": ["plan marketing", "go-to-market", "gtm", "plan de croissance"]
+      },
+      "select": [{ "skill": "marketing-plan", "mode": "full" }]
+    },
+    {
+      "id": "marketing-psychology",
+      "priority": 102,
+      "match": {
+        "any": [
+          "psychologie marketing",
+          "biais cognitif",
+          "science comportementale",
+          "persuasion"
+        ]
+      },
+      "select": [{ "skill": "marketing-psychology", "mode": "full" }]
+    },
+    {
+      "id": "marketing-ideas",
+      "priority": 101,
+      "match": {
+        "any": [
+          "idees marketing",
+          "idees de croissance",
+          "comment commercialiser",
+          "strategie de croissance"
+        ]
+      },
+      "select": [{ "skill": "marketing-ideas", "mode": "full" }]
+    },
+    {
+      "id": "memory",
+      "priority": 100,
+      "match": {
+        "any": [
+          "souviens-toi",
+          "rappelle le contexte",
+          "memorise",
+          "memoire projet",
+          "decision anterieure"
+        ]
+      },
+      "select": [{ "skill": "codex-meme-skill", "mode": "full" }]
+    },
+    {
+      "id": "google-drive",
+      "priority": 96,
+      "match": {
+        "any": [
+          "google drive",
+          "fichier drive",
+          "dossier drive",
+          "partage drive"
+        ]
+      },
+      "select": [{ "skill": "google-drive:google-drive", "mode": "full" }]
+    },
+    {
+      "id": "github-context",
+      "priority": 94,
+      "match": {
+        "any": [
+          "depot github",
+          "issue github",
+          "pr github",
+          "pull request github"
+        ]
+      },
+      "select": [{ "skill": "github:github", "mode": "full" }]
+    },
+    {
+      "id": "executing-plans",
+      "priority": 92,
+      "match": {
+        "any": [
+          "execute ce plan",
+          "suis le plan d'implementation",
+          "implemente le plan existant"
+        ]
+      },
+      "select": [{ "skill": "executing-plans", "mode": "full" }]
+    },
+    {
+      "id": "using-worktrees",
+      "priority": 91,
+      "match": {
+        "any": [
+          "git worktree",
+          "travail isole",
+          "isole cette branche",
+          "workspace separe"
+        ]
+      },
+      "select": [{ "skill": "using-git-worktrees", "mode": "full" }]
+    },
+    {
+      "id": "parallel-agents",
+      "priority": 90,
+      "match": {
+        "any": [
+          "taches independantes en parallele",
+          "parallelise les taches",
+          "agents en parallele"
+        ]
+      },
+      "select": [{ "skill": "dispatching-parallel-agents", "mode": "full" }]
+    },
+    {
+      "id": "subagent-development",
+      "priority": 89,
+      "match": {
+        "any": [
+          "execute avec des sous-agents",
+          "implementation par sous-agents",
+          "subagent driven"
+        ]
+      },
+      "select": [{ "skill": "subagent-driven-development", "mode": "full" }]
+    },
+    {
+      "id": "planning",
+      "priority": 70,
+      "match": {
+        "any": [
+          "plan d'implementation",
+          "specification multi-etapes",
+          "planifie l'implementation"
+        ]
+      },
+      "select": [{ "skill": "writing-plans", "mode": "full" }]
+    },
+    {
+      "id": "brainstorming",
+      "priority": 60,
+      "match": {
+        "any": [
+          "brainstorm",
+          "explore des options",
+          "concois une solution",
+          "clarifie le design"
+        ]
+      },
+      "select": [{ "skill": "brainstorming", "mode": "full" }]
+    },
+    {
+      "id": "implementation",
+      "priority": 40,
+      "requires": ["implementation"],
+      "match": {},
+      "select": [{ "skill": "test-driven-development", "mode": "full" }]
+    }
+  ],
+  "overlays": [
+    {
+      "id": "tdd-cycle",
+      "priority": 20,
+      "requires": ["implementation"],
+      "match": {},
+      "select": [
+        {
+          "sourceSkill": "test-driven-development",
+          "fragment": "red-green-refactor",
+          "mode": "fragment",
+          "path": "config/codex/skill-router/fragments/red-green-refactor.md"
+        }
+      ]
+    },
+    {
+      "id": "verification-gate",
+      "priority": 10,
+      "match": {
+        "any": [
+          "verifie",
+          "validation",
+          "corrige",
+          "implemente",
+          "termine",
+          "finalise",
+          "publie",
+          "push",
+          "livre"
+        ]
+      },
+      "select": [
+        {
+          "sourceSkill": "verification-before-completion",
+          "fragment": "evidence-gate",
+          "mode": "fragment",
+          "path": "config/codex/skill-router/fragments/evidence-gate.md"
+        }
+      ]
+    },
+    {
+      "id": "implementation-verification-gate",
+      "priority": 9,
+      "requires": ["implementation"],
+      "match": {},
+      "select": [
+        {
+          "sourceSkill": "verification-before-completion",
+          "fragment": "evidence-gate",
+          "mode": "fragment",
+          "path": "config/codex/skill-router/fragments/evidence-gate.md"
+        }
+      ]
+    },
+    {
+      "id": "planning-contract",
+      "priority": 5,
+      "match": {
+        "any": ["multi-etapes", "specification", "planifie", "roadmap"]
+      },
+      "select": [
+        {
+          "sourceSkill": "writing-plans",
+          "fragment": "implementation-contract",
+          "mode": "fragment",
+          "path": "config/codex/skill-router/fragments/implementation-contract.md"
+        }
+      ]
+    }
+  ]
+}
