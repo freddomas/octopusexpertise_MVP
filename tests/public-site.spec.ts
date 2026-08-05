@@ -101,4 +101,41 @@ test.describe("public website", () => {
     const motionLayer = page.locator("[data-motion-layer]");
     await expect(motionLayer).toHaveAttribute("data-motion", "reduced");
   });
+
+  test("uses the Deep Red template direction in blue and violet", async ({
+    page,
+  }) => {
+    await page.goto("/fr");
+
+    const site = page.locator(".public-site");
+    await expect(site).toHaveAttribute(
+      "data-art-direction",
+      "deep-blue-violet",
+    );
+    await expect(page.locator(".hero-atmosphere")).toBeVisible();
+    await expect(page.locator(".hero-hand")).toHaveCount(2);
+
+    const styles = await page.evaluate(() => {
+      const body = getComputedStyle(document.body);
+      const title = getComputedStyle(document.querySelector(".hero h1")!);
+      const firstCard = getComputedStyle(
+        document.querySelector(".capability-card")!,
+      );
+      const atmosphere = getComputedStyle(
+        document.querySelector(".hero-atmosphere")!,
+      );
+
+      return {
+        background: body.backgroundColor,
+        fontFamily: title.fontFamily,
+        firstCardBackground: firstCard.backgroundColor,
+        atmosphereFilter: atmosphere.filter,
+      };
+    });
+
+    expect(styles.background).toBe("rgb(5, 5, 5)");
+    expect(styles.fontFamily).toContain("Playfair Display");
+    expect(styles.firstCardBackground).toBe("rgb(37, 99, 235)");
+    expect(styles.atmosphereFilter).toContain("hue-rotate(210deg)");
+  });
 });

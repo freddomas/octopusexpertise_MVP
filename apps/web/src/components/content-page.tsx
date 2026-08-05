@@ -20,7 +20,10 @@ export function ContentPage({
   const copy = homeContent[locale];
 
   return (
-    <div className="public-site content-site">
+    <div
+      className="public-site content-site"
+      data-art-direction="deep-blue-violet"
+    >
       <MotionLayer />
       <SiteHeader locale={locale} />
       <main>

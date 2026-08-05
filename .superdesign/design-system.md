@@ -6,25 +6,22 @@ Premium bilingual B2B orchestration website for decision-makers, procurement lea
 
 ## Deep Red Style adaptation
 
-Retain the reference's cinematic dark atmosphere, editorial serif headlines, dot-grid texture, floating parallax cards, large negative space, scroll reveals and layered depth. Replace every red/orange accent with the logo palette. Do not use the reference's surreal hands, client-logo wall or invented statistics.
+Adopt the supplied Deep Red template as the artistic source of truth: cinematic centered hero, atmospheric image, surreal floating hands, editorial negative space, restrained logo-like proof rail, staggered portrait cards, scroll reveals, soft parallax, fixed translucent navigation and monumental footer wordmark. Preserve the complete verified Octopus content and interactions. The only artistic substitution is red/orange to blue/violet.
 
 ## Palette
 
-- Void: `#050713`
-- Night: `#080b1c`
-- Deep blue: `#0b1b72`
-- Electric blue: `#1597ff`
-- Cyan light: `#57d5ff`
-- Violet: `#7257d9`
-- Orchid: `#b85bc4`
-- Ice: `#eef6ff`
-- Muted: `#9da9c7`
-- Glass: `rgba(14, 20, 49, 0.64)`
-- Hairline: `rgba(176, 202, 255, 0.16)`
+- Background: `#050505`
+- Card: `#111111`
+- Blue accent: `#2563eb`
+- Violet accent: `#7c3aed`
+- Pale lavender: `#e9e7ff`
+- Muted: `#8d8d99`
+- Glass: `rgba(5, 5, 5, 0.8)`
+- Hairline: `rgba(255, 255, 255, 0.1)`
 
 ## Typography
 
-- Display: `Georgia, "Times New Roman", serif`; restrained italics for emphasis.
+- Display: `"Playfair Display", Georgia, "Times New Roman", serif`; restrained italics for emphasis.
 - UI/body: `Inter, ui-sans-serif, system-ui, sans-serif`.
 - Headlines use tight tracking and fluid `clamp()` sizing.
 - Utility labels use uppercase with wide tracking.
@@ -33,18 +30,18 @@ Retain the reference's cinematic dark atmosphere, editorial serif headlines, dot
 
 - Maximum content width: `90rem`; gutters: `clamp(1rem, 4vw, 4rem)`.
 - Sections use `clamp(6rem, 12vw, 11rem)` vertical rhythm.
-- Cards: 24–32px radius, translucent dark surfaces, hairline borders, soft blue-violet glow.
-- Primary buttons: ice surface with dark text or electric-blue gradient; pill shape.
+- Cards: 24px radius, portrait proportions, solid blue/violet or `#111111`, hairline borders and staggered vertical placement.
+- Primary buttons: white surface with dark text; pill shape and restrained blue glow.
 - Secondary buttons: transparent glass with hairline border.
 - Navigation: fixed, then compact blurred glass after scroll.
-- Dot grid and radial glows provide atmosphere; no literal octopus imagery beyond the supplied logo.
+- Atmospheric photography, surreal floating hands, subtle dot texture and blue-violet radial light provide depth.
 
 ## Motion
 
 - Reveal: 800ms, `cubic-bezier(0.22, 1, 0.36, 1)`, translate and blur to rest.
 - Floating layers: 12–18s alternating ease-in-out.
-- Pointer cards: maximum 6deg CSS perspective tilt with spring-like easing.
-- Scroll parallax: opposing low-amplitude vertical offsets.
+- Pointer cards: maximum 7deg CSS perspective tilt with spring-like easing.
+- Scroll parallax: opposing low-amplitude vertical offsets on staggered cards and hero layers.
 - Orchestration steps: contextual panel cross-fade and horizontal progress motion.
 - Buttons: magnetic 2–4px pointer response and arrow translation.
 - `prefers-reduced-motion: reduce` disables parallax, tilt, continuous loops and delayed reveals.

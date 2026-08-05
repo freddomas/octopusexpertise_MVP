@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState, type PointerEvent } from "react";
 
@@ -41,22 +40,16 @@ export function PublicHome({ locale }: { locale: Locale }) {
   const active = copy.orchestration[selected];
 
   return (
-    <div className="public-site">
+    <div className="public-site" data-art-direction="deep-blue-violet">
       <MotionLayer />
       <SiteHeader locale={locale} />
 
       <main>
         <section className="hero section-shell">
+          <div className="hero-atmosphere" aria-hidden="true" />
+          <div className="hero-hand hero-hand-left" aria-hidden="true" />
+          <div className="hero-hand hero-hand-right" aria-hidden="true" />
           <div className="hero-grid" aria-hidden="true" />
-          <div className="hero-logo" aria-hidden="true">
-            <Image
-              src="/octopus-expertise-logo.webp"
-              alt=""
-              width={640}
-              height={640}
-              priority
-            />
-          </div>
           <div className="hero-copy">
             <p className="hero-eyebrow" data-reveal>
               {copy.eyebrow}
@@ -84,16 +77,6 @@ export function PublicHome({ locale }: { locale: Locale }) {
             <p className="proof-line" data-reveal>
               {copy.proofLine}
             </p>
-          </div>
-          <div className="hero-system" aria-hidden="true">
-            <div className="system-core">
-              <span>OE</span>
-            </div>
-            <div className="system-ring ring-one" />
-            <div className="system-ring ring-two" />
-            <span className="system-node node-one" />
-            <span className="system-node node-two" />
-            <span className="system-node node-three" />
           </div>
           <p className="scroll-cue">
             <span />
