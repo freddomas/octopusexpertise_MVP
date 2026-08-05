@@ -15,11 +15,14 @@
     "build": "npm run build --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
-    "format:check": "prettier --check apps docs README.md AGENTS.md package.json compose.yaml",
+    "test:e2e": "npm run build --workspace @octopus/web && playwright test",
+    "verify": "npm run format:check && npm run lint && npm run test && npm run build --workspace @octopus/api && npm run test:e2e",
+    "format:check": "prettier --check apps docs tests README.md AGENTS.md package.json playwright.config.ts compose.yaml",
     "db:up": "docker compose up -d postgres",
     "db:down": "docker compose down"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.0",
     "concurrently": "^9.2.1",
     "prettier": "^3.6.2"
   }
