@@ -69,13 +69,6 @@ export function ContentPage({
           </h2>
           <div>
             <Link
-              className="button"
-              href={pathFor(locale, "confier-un-besoin")}
-            >
-              {copy.primaryCta}
-              <span>↗</span>
-            </Link>
-            <Link
               className="button button-ghost"
               href={pathFor(locale, "contact")}
             >

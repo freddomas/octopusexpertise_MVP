@@ -70,23 +70,11 @@ export function SiteHeader({ locale }: { locale: Locale }) {
 
         <div className="header-actions">
           <Link
-            className="utility-link login-link"
-            href={pathFor(locale, "connexion")}
-          >
-            {copy.utility}
-          </Link>
-          <Link
             className="language-link"
             href={pathFor(otherLocale)}
             hrefLang={otherLocale}
           >
             {otherLocale.toUpperCase()}
-          </Link>
-          <Link
-            className="button button-small header-cta"
-            href={pathFor(locale, "confier-un-besoin")}
-          >
-            {copy.primaryCta}
           </Link>
           <button
             className="menu-button"
@@ -118,12 +106,6 @@ export function SiteHeader({ locale }: { locale: Locale }) {
             ))}
           </div>
           <div className="mobile-nav-actions">
-            <Link
-              className="button"
-              href={pathFor(locale, "confier-un-besoin")}
-            >
-              {copy.primaryCta}
-            </Link>
             <Link
               className="button button-ghost"
               href={pathFor(locale, "devenir-partenaire")}
