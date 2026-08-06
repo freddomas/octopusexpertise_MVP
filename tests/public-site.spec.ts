@@ -17,9 +17,16 @@ test.describe("public website", () => {
     await expect(
       page.getByRole("heading", {
         level: 1,
-        name: /structure chaque besoin, mobilise les partenaires/i,
+        name: "Au centre de l'interaction métier",
       }),
     ).toBeVisible();
+    await expect(page.locator(".hero .hero-eyebrow")).toHaveCount(0);
+    await expect(page.locator(".hero .hero-intro")).toHaveCount(0);
+    await expect(page.locator(".hero .hero-actions")).toHaveCount(0);
+    await expect(page.locator(".hero .proof-line")).toHaveCount(0);
+    await expect(page.locator(".hero")).not.toContainText("Lualaba");
+    await expect(page.locator(".hero")).not.toContainText("Kolwezi");
+    await expect(page.locator(".hero")).not.toContainText("Qualification");
     await expect(
       page
         .getByRole("link", { name: "Confier un besoin", exact: true })
@@ -46,7 +53,7 @@ test.describe("public website", () => {
     await expect(
       page.getByRole("heading", {
         level: 1,
-        name: /structures every need, mobilises the most relevant partners/i,
+        name: "Your business gateway",
       }),
     ).toBeVisible();
     await expect(
@@ -99,11 +106,20 @@ test.describe("public website", () => {
         const styles = getComputedStyle(node);
         return {
           backgroundColor: styles.backgroundColor,
+          opacity: styles.opacity,
+          overflowY: styles.overflowY,
+          position: styles.position,
           zIndex: Number(styles.zIndex),
+          rect: node.getBoundingClientRect().toJSON(),
         };
       });
 
     expect(menuSurface.backgroundColor).toBe("rgb(5, 5, 5)");
+    expect(menuSurface.opacity).toBe("1");
+    expect(menuSurface.overflowY).toBe("auto");
+    expect(menuSurface.position).toBe("fixed");
+    expect(menuSurface.rect.width).toBe(390);
+    expect(menuSurface.rect.height).toBe(844);
     expect(menuSurface.zIndex).toBeGreaterThan(0);
   });
 
@@ -111,10 +127,12 @@ test.describe("public website", () => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/fr");
 
-    await expect(page.locator(".hero-depth-waves > span")).toHaveCount(3);
+    await expect(page.locator(".hero-wave-field > span")).toHaveCount(3);
+    await expect(page.locator("[data-drc-map-art]")).toBeVisible();
     await expect(page.locator("[data-drc-map]")).toBeVisible();
     await expect(page.locator(".map-location")).toHaveCount(3);
-    await expect(page.getByText("Kinshasa", { exact: true })).toBeVisible();
+    await expect(page.locator(".map-location[aria-label]")).toHaveCount(3);
+    await expect(page.locator("[data-drc-map] text")).toHaveCount(0);
 
     const layout = await page.evaluate(() => {
       const brand = document.querySelector(".brand-mark")!;
@@ -125,7 +143,8 @@ test.describe("public website", () => {
       const rightHand = document.querySelector(".hero-hand-right")!;
       const section = document.querySelector(".value-section")!;
       const wordmark = document.querySelector(".footer-wordmark")!;
-      const wave = document.querySelector(".hero-depth-waves > span")!;
+      const waveField = document.querySelector(".hero-wave-field")!;
+      const wave = document.querySelector(".hero-wave-field > span")!;
       const brandBox = brand.getBoundingClientRect();
       const brandImageBox = brandImage.getBoundingClientRect();
       const leftBox = leftHand.getBoundingClientRect();
@@ -138,22 +157,29 @@ test.describe("public website", () => {
         brandHeight: brandBox.height,
         brandImageWidth: brandImageBox.width,
         brandImageHeight: brandImageBox.height,
+        brandObjectFit: getComputedStyle(brandImage).objectFit,
         typeRatio: heroSize / navSize,
         handGap: rightBox.left - leftBox.right,
         sectionPadding: Number.parseFloat(getComputedStyle(section).paddingTop),
         wordmarkSize: Number.parseFloat(getComputedStyle(wordmark).fontSize),
         waveAnimation: getComputedStyle(wave).animationName,
+        wavePerspective: getComputedStyle(waveField).perspective,
+        waveTransformStyle: getComputedStyle(wave).transformStyle,
       };
     });
 
-    expect(layout.brandWidth).toBeGreaterThanOrEqual(48);
+    expect(layout.brandWidth).toBeGreaterThanOrEqual(168);
+    expect(layout.brandHeight).toBeGreaterThanOrEqual(56);
     expect(layout.brandImageWidth).toBe(layout.brandWidth);
     expect(layout.brandImageHeight).toBe(layout.brandHeight);
-    expect(layout.typeRatio).toBeLessThanOrEqual(7);
-    expect(layout.handGap).toBeLessThanOrEqual(280);
+    expect(layout.brandObjectFit).toBe("cover");
+    expect(layout.typeRatio).toBeLessThanOrEqual(5);
+    expect(layout.handGap).toBeLessThanOrEqual(140);
     expect(layout.sectionPadding).toBeLessThanOrEqual(128);
     expect(layout.wordmarkSize).toBeLessThanOrEqual(144);
-    expect(layout.waveAnimation).toContain("underwater-wave");
+    expect(layout.waveAnimation).toContain("hero-wave-swell");
+    expect(layout.wavePerspective).not.toBe("none");
+    expect(layout.waveTransformStyle).toBe("preserve-3d");
   });
 
   test("honours reduced motion", async ({ page }) => {
@@ -198,6 +224,8 @@ test.describe("public website", () => {
     expect(styles.background).toBe("rgb(5, 5, 5)");
     expect(styles.fontFamily).toContain("Playfair Display");
     expect(styles.firstCardBackground).toBe("rgb(37, 99, 235)");
-    expect(styles.atmosphereFilter).toContain("hue-rotate(210deg)");
+    expect(styles.atmosphereFilter).toMatch(
+      /hue-rotate\((?:20[7-9]|21[0-4])(?:\.\d+)?deg\)/,
+    );
   });
 });

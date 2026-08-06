@@ -34,7 +34,9 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   }, [open]);
 
   return (
-    <header className={`site-header ${compact ? "is-compact" : ""}`}>
+    <header
+      className={`site-header ${compact ? "is-compact" : ""} ${open ? "menu-open" : ""}`}
+    >
       <div className="header-inner">
         <Link
           className="brand"
@@ -46,7 +48,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               src="/octopus-expertise-logo.webp"
               alt=""
               fill
-              sizes="128px"
+              sizes="192px"
               priority
             />
           </span>
@@ -103,7 +105,11 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         <nav className="mobile-nav" aria-label={copy.mobileNav}>
           <div className="mobile-nav-links">
             {navigation[locale].map(([label, slug], index) => (
-              <Link href={pathFor(locale, slug)} key={slug}>
+              <Link
+                href={pathFor(locale, slug)}
+                key={slug}
+                onClick={() => setOpen(false)}
+              >
                 <span aria-hidden="true">
                   {String(index + 1).padStart(2, "0")}
                 </span>

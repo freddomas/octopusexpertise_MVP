@@ -21,7 +21,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
       <div className="footer-grid">
         <div>
           <p className="footer-brand">Octopus Expertise</p>
-          <p className="footer-statement">{copy.heroIntro}</p>
+          <p className="footer-statement">{copy.footerStatement}</p>
         </div>
         <div className="footer-column">
           <p className="footer-label">
