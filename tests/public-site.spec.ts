@@ -128,11 +128,19 @@ test.describe("public website", () => {
     await page.goto("/fr");
 
     await expect(page.locator(".hero-wave-field > span")).toHaveCount(3);
+    await expect(page.locator("[data-hero-cube-animation]")).toBeVisible();
+    await expect(page.locator("[data-hero-cube-animation]")).toHaveAttribute(
+      "data-render-ready",
+      "true",
+      { timeout: 15_000 },
+    );
+    await expect(page.locator(".hero-cube-canvas")).toBeVisible();
+    await expect(page.locator(".hero .scroll-cue")).toHaveCount(0);
     await expect(page.locator("[data-drc-map-art]")).toBeVisible();
-    await expect(page.locator("[data-drc-map]")).toBeVisible();
-    await expect(page.locator(".map-location")).toHaveCount(3);
-    await expect(page.locator(".map-location[aria-label]")).toHaveCount(3);
-    await expect(page.locator("[data-drc-map] text")).toHaveCount(0);
+    await expect(page.locator(".map-region")).toHaveCount(3);
+    await expect(page.locator(".partner-dashboard")).toBeVisible();
+    await expect(page.locator(".partner-signal")).toHaveCount(6);
+    await expect(page.locator(".network-core")).toHaveCount(0);
 
     const layout = await page.evaluate(() => {
       const brand = document.querySelector(".brand-mark")!;
@@ -145,12 +153,22 @@ test.describe("public website", () => {
       const wordmark = document.querySelector(".footer-wordmark")!;
       const waveField = document.querySelector(".hero-wave-field")!;
       const wave = document.querySelector(".hero-wave-field > span")!;
+      const cubeStage = document.querySelector("[data-hero-cube-animation]")!;
+      const firstPillar = document.querySelector(".pillar-card")!;
+      const firstTab = document.querySelector(".orchestration-tabs button")!;
+      const panelTitle = document.querySelector(".orchestration-panel h3")!;
       const brandBox = brand.getBoundingClientRect();
       const brandImageBox = brandImage.getBoundingClientRect();
       const leftBox = leftHand.getBoundingClientRect();
       const rightBox = rightHand.getBoundingClientRect();
       const navSize = Number.parseFloat(getComputedStyle(nav).fontSize);
       const heroSize = Number.parseFloat(getComputedStyle(heroTitle).fontSize);
+      const tabSize = Number.parseFloat(getComputedStyle(firstTab).fontSize);
+      const panelTitleSize = Number.parseFloat(
+        getComputedStyle(panelTitle).fontSize,
+      );
+      const cubeBox = cubeStage.getBoundingClientRect();
+      const heroBox = heroTitle.getBoundingClientRect();
 
       return {
         brandWidth: brandBox.width,
@@ -159,6 +177,10 @@ test.describe("public website", () => {
         brandImageHeight: brandImageBox.height,
         brandObjectFit: getComputedStyle(brandImage).objectFit,
         typeRatio: heroSize / navSize,
+        panelTypeRatio: panelTitleSize / tabSize,
+        tabSize,
+        cubeBeforeTitle: cubeBox.bottom <= heroBox.top + 12,
+        pillarHeight: firstPillar.getBoundingClientRect().height,
         handGap: rightBox.left - leftBox.right,
         sectionPadding: Number.parseFloat(getComputedStyle(section).paddingTop),
         wordmarkSize: Number.parseFloat(getComputedStyle(wordmark).fontSize),
@@ -173,13 +195,65 @@ test.describe("public website", () => {
     expect(layout.brandImageWidth).toBe(layout.brandWidth);
     expect(layout.brandImageHeight).toBe(layout.brandHeight);
     expect(layout.brandObjectFit).toBe("cover");
-    expect(layout.typeRatio).toBeLessThanOrEqual(5);
+    expect(layout.typeRatio).toBeLessThanOrEqual(4);
+    expect(layout.panelTypeRatio).toBeLessThanOrEqual(4);
+    expect(layout.tabSize).toBeGreaterThanOrEqual(15);
+    expect(layout.cubeBeforeTitle).toBe(true);
+    expect(layout.pillarHeight).toBeLessThanOrEqual(320);
     expect(layout.handGap).toBeLessThanOrEqual(140);
     expect(layout.sectionPadding).toBeLessThanOrEqual(128);
     expect(layout.wordmarkSize).toBeLessThanOrEqual(144);
     expect(layout.waveAnimation).toContain("hero-wave-swell");
     expect(layout.wavePerspective).not.toBe("none");
     expect(layout.waveTransformStyle).toBe("preserve-3d");
+  });
+
+  test("places readable regional spheres over the DRC map", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/fr");
+
+    const map = page.locator(".territory-map");
+    await map.scrollIntoViewIfNeeded();
+    const expected = {
+      Kinshasa: [0.332, 0.485],
+      Lualaba: [0.585, 0.7],
+      "Haut-Katanga": [0.675, 0.755],
+    } as const;
+
+    for (const [name, [expectedX, expectedY]] of Object.entries(expected)) {
+      const region = page.getByRole("img", { name, exact: true });
+      await expect(region).toBeVisible();
+      const geometry = await region.evaluate((node) => {
+        const mapBox = node.parentElement!.getBoundingClientRect();
+        const box = node.getBoundingClientRect();
+        return {
+          x: (box.left + box.width / 2 - mapBox.left) / mapBox.width,
+          y: (box.top + box.height / 2 - mapBox.top) / mapBox.height,
+          size: box.width,
+        };
+      });
+      expect(Math.abs(geometry.x - expectedX)).toBeLessThan(0.035);
+      expect(Math.abs(geometry.y - expectedY)).toBeLessThan(0.035);
+      expect(geometry.size).toBeGreaterThanOrEqual(52);
+      await region.hover();
+      await expect(region.locator(".map-region-label")).toBeVisible();
+      await expect(region.locator(".map-region-label")).toHaveText(name);
+    }
+  });
+
+  test("collapses the cube stage when its atlas cannot load", async ({
+    page,
+  }) => {
+    await page.route("**/images/professions-atlas.webp", (route) =>
+      route.abort(),
+    );
+    await page.goto("/fr");
+
+    const stage = page.locator("[data-hero-cube-animation]");
+    await expect(stage).toHaveAttribute("data-render-error", "true");
+    await expect(stage).toBeHidden();
   });
 
   test("honours reduced motion", async ({ page }) => {
