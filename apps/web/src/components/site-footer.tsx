@@ -40,7 +40,6 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           <Link href={pathFor(locale, "plateforme")}>
             {locale === "fr" ? "Plateforme" : "Platform"}
           </Link>
-          <Link href={pathFor(locale, "connexion")}>{copy.utility}</Link>
         </div>
       </div>
       <div className="footer-bottom">

@@ -362,13 +362,6 @@ export function PublicHome({ locale }: { locale: Locale }) {
           <p data-reveal>{copy.finalText}</p>
           <div className="hero-actions" data-reveal>
             <Link
-              className="button"
-              href={pathFor(locale, "confier-un-besoin")}
-            >
-              {copy.primaryCta}
-              <Arrow />
-            </Link>
-            <Link
               className="button button-ghost"
               href={pathFor(locale, "contact")}
             >

@@ -28,10 +28,11 @@ test.describe("public website", () => {
     await expect(page.locator(".hero")).not.toContainText("Kolwezi");
     await expect(page.locator(".hero")).not.toContainText("Qualification");
     await expect(
-      page
-        .getByRole("link", { name: "Confier un besoin", exact: true })
-        .first(),
-    ).toBeVisible();
+      page.getByRole("link", { name: "Confier un besoin", exact: true }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole("link", { name: "Connexion", exact: true }),
+    ).toHaveCount(0);
     await expect(
       page
         .getByRole("link", { name: "Rejoindre le réseau", exact: true })
@@ -57,8 +58,11 @@ test.describe("public website", () => {
       }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "Submit a need", exact: true }).first(),
-    ).toBeVisible();
+      page.getByRole("link", { name: "Submit a need", exact: true }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole("link", { name: "Sign in", exact: true }),
+    ).toHaveCount(0);
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
   });
 
@@ -99,6 +103,9 @@ test.describe("public website", () => {
     await expect(
       page.getByRole("link", { name: "Méthode", exact: true }).last(),
     ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Confier un besoin", exact: true }),
+    ).toHaveCount(0);
 
     const menuSurface = await page
       .getByRole("navigation", { name: "Navigation mobile" })
@@ -121,6 +128,19 @@ test.describe("public website", () => {
     expect(menuSurface.rect.width).toBe(390);
     expect(menuSurface.rect.height).toBe(844);
     expect(menuSurface.zIndex).toBeGreaterThan(0);
+  });
+
+  test("hides connection and need actions on content pages", async ({
+    page,
+  }) => {
+    await page.goto("/fr/methode");
+    await expect(
+      page.getByRole("link", { name: "Confier un besoin", exact: true }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole("link", { name: "Connexion", exact: true }),
+    ).toHaveCount(0);
+    await expect(page.locator('.page-cta a[href="/fr/contact"]')).toBeVisible();
   });
 
   test("balances the landing page art direction", async ({ page }) => {
