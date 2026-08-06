@@ -8,6 +8,9 @@ import { homeContent, pathFor, type Locale } from "@/content/site-content";
 import { MotionLayer } from "@/components/motion-layer";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { HeroCubeAnimation } from "@/features/hero/HeroCubeAnimation";
+
+const territoryRegions = ["Kinshasa", "Lualaba", "Haut-Katanga"] as const;
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
@@ -56,13 +59,12 @@ export function PublicHome({ locale }: { locale: Locale }) {
           <div className="hero-hand hero-hand-left" aria-hidden="true" />
           <div className="hero-hand hero-hand-right" aria-hidden="true" />
           <div className="hero-grid" aria-hidden="true" />
-          <div className="hero-copy">
-            <h1 data-reveal>{copy.hero}</h1>
+          <div className="hero-center">
+            <HeroCubeAnimation />
+            <div className="hero-copy">
+              <h1 data-reveal>{copy.hero}</h1>
+            </div>
           </div>
-          <p className="scroll-cue">
-            <span />
-            Scroll
-          </p>
         </section>
 
         <section
@@ -223,16 +225,35 @@ export function PublicHome({ locale }: { locale: Locale }) {
         </section>
 
         <section className="network-section section-shell">
-          <div className="network-visual" data-reveal aria-hidden="true">
-            <div className="network-core">OE</div>
-            {copy.networkAxes.map((axis, index) => (
-              <span
-                className={`network-point network-point-${index + 1}`}
-                key={axis}
-              >
-                {index + 1}
-              </span>
-            ))}
+          <div
+            className="partner-dashboard"
+            data-partner-dashboard
+            data-reveal
+            aria-hidden="true"
+          >
+            <div className="partner-dashboard-bar">
+              <span />
+              <span />
+              <span />
+            </div>
+            <div className="partner-signal-grid">
+              {copy.networkAxes.map((axis, index) => (
+                <div
+                  className={`partner-signal signal-${index + 1}`}
+                  key={axis}
+                >
+                  <span className="partner-signal-index">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div className="partner-signal-plot">
+                    <i />
+                    <i />
+                    <i />
+                  </div>
+                  <strong>{axis}</strong>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="network-copy">
             <Eyebrow>{copy.networkEyebrow}</Eyebrow>
@@ -259,7 +280,16 @@ export function PublicHome({ locale }: { locale: Locale }) {
             <h2 data-reveal>{copy.territoryTitle}</h2>
             <p data-reveal>{copy.territoryText}</p>
           </div>
-          <div className="territory-map" data-reveal aria-hidden="true">
+          <div
+            className="territory-map"
+            data-reveal
+            role="group"
+            aria-label={
+              locale === "fr"
+                ? "Régions couvertes en République démocratique du Congo"
+                : "Covered regions in the Democratic Republic of the Congo"
+            }
+          >
             <Image
               className="drc-map-art"
               data-drc-map-art
@@ -268,31 +298,20 @@ export function PublicHome({ locale }: { locale: Locale }) {
               fill
               sizes="(max-width: 62rem) 92vw, 52vw"
             />
-            <svg
-              className="drc-map"
-              data-drc-map
-              viewBox="0 0 1456 1092"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g
-                className="map-location location-kinshasa"
-                aria-label="Kinshasa"
-              >
-                <circle className="map-halo" cx="484" cy="545" r="24" />
-                <circle className="map-dot" cx="484" cy="545" r="8" />
-              </g>
-              <g className="map-location location-lualaba" aria-label="Lualaba">
-                <circle className="map-halo" cx="755" cy="739" r="24" />
-                <circle className="map-dot" cx="755" cy="739" r="8" />
-              </g>
-              <g
-                className="map-location location-katanga"
-                aria-label="Haut-Katanga"
-              >
-                <circle className="map-halo" cx="928" cy="807" r="24" />
-                <circle className="map-dot" cx="928" cy="807" r="8" />
-              </g>
-            </svg>
+            <div className="map-regions" data-drc-map>
+              {territoryRegions.map((region) => (
+                <span
+                  className={`map-region location-${region.toLowerCase()}`}
+                  role="img"
+                  aria-label={region}
+                  tabIndex={0}
+                  key={region}
+                >
+                  <span className="map-region-core" />
+                  <span className="map-region-label">{region}</span>
+                </span>
+              ))}
+            </div>
           </div>
         </section>
 
