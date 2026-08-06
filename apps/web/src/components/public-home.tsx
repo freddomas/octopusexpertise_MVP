@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState, type PointerEvent } from "react";
 
@@ -47,7 +48,7 @@ export function PublicHome({ locale }: { locale: Locale }) {
       <main>
         <section className="hero section-shell">
           <div className="hero-atmosphere" aria-hidden="true" />
-          <div className="hero-depth-waves" aria-hidden="true">
+          <div className="hero-wave-field" aria-hidden="true">
             <span />
             <span />
             <span />
@@ -56,32 +57,7 @@ export function PublicHome({ locale }: { locale: Locale }) {
           <div className="hero-hand hero-hand-right" aria-hidden="true" />
           <div className="hero-grid" aria-hidden="true" />
           <div className="hero-copy">
-            <p className="hero-eyebrow" data-reveal>
-              {copy.eyebrow}
-            </p>
             <h1 data-reveal>{copy.hero}</h1>
-            <p className="hero-intro" data-reveal>
-              {copy.heroIntro}
-            </p>
-            <div className="hero-actions" data-reveal>
-              <Link
-                className="button"
-                href={pathFor(locale, "confier-un-besoin")}
-              >
-                {copy.primaryCta}
-                <Arrow />
-              </Link>
-              <Link
-                className="button button-ghost"
-                href={pathFor(locale, "devenir-partenaire")}
-              >
-                {copy.partnerCta}
-                <Arrow />
-              </Link>
-            </div>
-            <p className="proof-line" data-reveal>
-              {copy.proofLine}
-            </p>
           </div>
           <p className="scroll-cue">
             <span />
@@ -284,45 +260,39 @@ export function PublicHome({ locale }: { locale: Locale }) {
             <p data-reveal>{copy.territoryText}</p>
           </div>
           <div className="territory-map" data-reveal aria-hidden="true">
+            <Image
+              className="drc-map-art"
+              data-drc-map-art
+              src="/drc-regional-map.webp"
+              alt=""
+              fill
+              sizes="(max-width: 62rem) 92vw, 52vw"
+            />
             <svg
               className="drc-map"
               data-drc-map
-              viewBox="0 0 640 520"
+              viewBox="0 0 1456 1092"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                className="drc-outline"
-                d="M116 181 96 160l29-25 35 5 20-23 42 7 29-24 40 16 36-21 36 16 38-10 31 19 12 28 39 10 10 30 36 15-13 32 27 23-20 29 8 31-24 20-2 32-28 17-15 40-27 22-29-11-18 34-34-8-17-35-39 8-25-27-38-3-15-32-36-10-3-37-36-18-21 16-36-10-26-28 10-25 33-5 21-24-22-23 13-32-22-23 12-30Z"
-              />
-              <path
-                className="drc-river"
-                d="M425 154c-62 31-68 85-117 99-52 15-97-16-135 7-26 16-35 35-72 31"
-              />
-              <g className="map-location location-kinshasa">
-                <circle className="map-halo" cx="104" cy="291" r="18" />
-                <circle className="map-dot" cx="104" cy="291" r="5" />
-                <text x="75" y="324">
-                  Kinshasa
-                </text>
+              <g
+                className="map-location location-kinshasa"
+                aria-label="Kinshasa"
+              >
+                <circle className="map-halo" cx="484" cy="545" r="24" />
+                <circle className="map-dot" cx="484" cy="545" r="8" />
               </g>
-              <g className="map-location location-lualaba">
-                <circle className="map-halo" cx="348" cy="401" r="18" />
-                <circle className="map-dot" cx="348" cy="401" r="5" />
-                <text x="276" y="433">
-                  Lualaba
-                </text>
+              <g className="map-location location-lualaba" aria-label="Lualaba">
+                <circle className="map-halo" cx="755" cy="739" r="24" />
+                <circle className="map-dot" cx="755" cy="739" r="8" />
               </g>
-              <g className="map-location location-katanga">
-                <circle className="map-halo" cx="438" cy="425" r="18" />
-                <circle className="map-dot" cx="438" cy="425" r="5" />
-                <text x="455" y="432">
-                  Haut-Katanga
-                </text>
+              <g
+                className="map-location location-katanga"
+                aria-label="Haut-Katanga"
+              >
+                <circle className="map-halo" cx="928" cy="807" r="24" />
+                <circle className="map-dot" cx="928" cy="807" r="8" />
               </g>
             </svg>
-            <span className="map-caption">
-              République démocratique du Congo
-            </span>
           </div>
         </section>
 

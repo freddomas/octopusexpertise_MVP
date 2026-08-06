@@ -49,11 +49,9 @@ const frHome = {
   primaryCta: "Confier un besoin",
   partnerCta: "Rejoindre le réseau",
   contactCta: "Nous contacter",
-  eyebrow: "Lualaba · Haut-Katanga · RDC",
-  hero: "Octopus Expertise structure chaque besoin, mobilise les partenaires les plus pertinents et coordonne la mission de bout en bout dans un cadre unique, visible et maîtrisé.",
-  heroIntro:
-    "Un seul interlocuteur. Des capacités multisectorielles qualifiées. Une exécution structurée et suivie.",
-  proofLine: "Qualification · Sélection · Coordination · Contrôle",
+  hero: "Au centre de l'interaction métier",
+  footerStatement:
+    "Un interlocuteur unique pour coordonner des capacités multisectorielles.",
   operationalProof: [
     "Besoin cadré",
     "Capacités qualifiées",
@@ -209,11 +207,9 @@ const enHome: typeof frHome = {
   primaryCta: "Submit a need",
   partnerCta: "Join the network",
   contactCta: "Contact us",
-  eyebrow: "Lualaba · Haut-Katanga · DRC",
-  hero: "Octopus Expertise structures every need, mobilises the most relevant partners and coordinates the mission end to end within one visible, controlled framework.",
-  heroIntro:
-    "One point of contact. Qualified multisector capabilities. Structured, monitored delivery.",
-  proofLine: "Qualification · Selection · Coordination · Control",
+  hero: "Your business gateway",
+  footerStatement:
+    "One gateway to coordinate qualified multisector capabilities.",
   operationalProof: [
     "Need framed",
     "Capabilities qualified",

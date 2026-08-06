@@ -10,7 +10,7 @@
   --muted: #8d8d99;
   --line: rgba(255, 255, 255, 0.1);
   --gutter: clamp(1.25rem, 4vw, 4rem);
-  --section: clamp(4.5rem, 8vw, 7rem);
+  --section: clamp(4rem, 6.5vw, 6rem);
   --max: 90rem;
   --page-scroll: 0;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
@@ -159,9 +159,15 @@ a {
   backdrop-filter: blur(18px);
 }
 
+.site-header.menu-open {
+  border-color: transparent;
+  background: #050505;
+  backdrop-filter: none;
+}
+
 .header-inner {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   width: min(100%, var(--max));
   min-height: 3rem;
   margin-inline: auto;
@@ -179,8 +185,8 @@ a {
 
 .brand-mark {
   position: relative;
-  width: 8rem;
-  height: 3rem;
+  width: 11.5rem;
+  height: 4rem;
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -191,8 +197,9 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(1.35) brightness(1.65) contrast(1.15)
-    drop-shadow(0 0 8px rgba(96, 165, 250, 0.25));
+  object-position: center 50%;
+  filter: grayscale(1) brightness(2.5) contrast(0.9)
+    drop-shadow(0 0 10px rgba(129, 140, 248, 0.22));
 }
 
 .brand-name {
@@ -356,11 +363,15 @@ a {
 .mobile-nav {
   position: fixed;
   inset: 0;
-  z-index: 1;
+  z-index: 3;
   padding: 7rem var(--gutter) 2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  opacity: 1;
   background:
     radial-gradient(
       circle at 90% 8%,
@@ -373,11 +384,9 @@ a {
 
 @keyframes menu-in {
   from {
-    opacity: 0;
     clip-path: circle(0 at calc(100% - 3rem) 3rem);
   }
   to {
-    opacity: 1;
     clip-path: circle(150% at calc(100% - 3rem) 3rem);
   }
 }
@@ -393,7 +402,7 @@ a {
   gap: 1rem;
   border-bottom: 1px solid var(--line);
   font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(1.7rem, 8vw, 3.4rem);
+  font-size: clamp(1.45rem, 6.5vw, 2.65rem);
 }
 
 .mobile-nav-links a span {
@@ -411,7 +420,7 @@ a {
 
 .hero {
   position: relative;
-  min-height: max(48rem, 100svh);
+  min-height: clamp(44rem, 88svh, 50rem);
   padding-top: clamp(8rem, 15vh, 10rem);
   padding-bottom: 5rem;
   display: flex;
@@ -437,6 +446,25 @@ a {
   opacity: 0.72;
   mix-blend-mode: screen;
   filter: hue-rotate(210deg) saturate(0.85);
+  transform-origin: 50% 68%;
+  transform-style: preserve-3d;
+  will-change: transform, filter;
+  animation: hero-drape-breathe 14s ease-in-out infinite alternate;
+}
+
+@keyframes hero-drape-breathe {
+  0% {
+    transform: perspective(75rem) rotateX(0.8deg) scale3d(1.02, 1.02, 1);
+    filter: hue-rotate(210deg) saturate(0.82) brightness(0.92);
+  }
+  50% {
+    transform: perspective(75rem) rotateX(-1.8deg) scale3d(1.07, 1.045, 1);
+    filter: hue-rotate(214deg) saturate(0.94) brightness(1.04);
+  }
+  100% {
+    transform: perspective(75rem) rotateX(1.5deg) scale3d(1.035, 1.075, 1);
+    filter: hue-rotate(207deg) saturate(0.88) brightness(0.97);
+  }
 }
 
 .hero-grid {
@@ -453,66 +481,105 @@ a {
   mask-image: linear-gradient(180deg, transparent, #000 30%, transparent 88%);
 }
 
-.hero-depth-waves {
+.hero-wave-field {
   position: absolute;
-  inset: 38% calc(50% - 50vw) 0;
+  inset: 12% calc(50% - 58vw) -18%;
   z-index: -2;
   overflow: hidden;
-  opacity: 0.34;
+  opacity: 0.72;
+  perspective: 52rem;
+  perspective-origin: 50% 36%;
+  transform-style: preserve-3d;
   mask-image: linear-gradient(
     180deg,
     transparent,
-    #000 18%,
-    #000 72%,
+    #000 14%,
+    #000 78%,
     transparent
   );
 }
 
-.hero-depth-waves span {
-  --wave-y: 0rem;
-  --wave-scale: 1;
+.hero-wave-field span {
+  --wave-y: 0%;
+  --wave-z: 0rem;
+  --wave-rotate: -2deg;
+  --wave-rotate-mid: 1deg;
+  --wave-rotate-end: -1.4deg;
   position: absolute;
-  left: -10%;
-  width: 120%;
-  height: 18rem;
-  border-top: 1px solid rgba(165, 180, 252, 0.38);
-  border-radius: 50%;
-  animation: underwater-wave 18s ease-in-out infinite alternate;
+  left: -8%;
+  width: 116%;
+  height: 66%;
+  border-radius: 44% 56% 48% 52% / 42% 38% 62% 58%;
+  background:
+    radial-gradient(
+      ellipse at 24% 28%,
+      rgba(96, 165, 250, 0.22),
+      transparent 34%
+    ),
+    radial-gradient(
+      ellipse at 72% 58%,
+      rgba(139, 92, 246, 0.28),
+      transparent 42%
+    ),
+    linear-gradient(148deg, rgba(30, 64, 175, 0.08), rgba(76, 29, 149, 0.34));
+  box-shadow:
+    inset 0 1px 0 rgba(199, 210, 254, 0.18),
+    inset 0 -3rem 7rem rgba(30, 27, 75, 0.34),
+    0 -2rem 7rem rgba(37, 99, 235, 0.12);
+  transform-style: preserve-3d;
+  will-change: transform;
+  animation: hero-wave-swell 13s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite
+    alternate;
 }
 
-.hero-depth-waves span:nth-child(1) {
-  top: 8%;
+.hero-wave-field span:nth-child(1) {
+  top: 16%;
 }
 
-.hero-depth-waves span:nth-child(2) {
-  --wave-y: 6rem;
-  --wave-scale: 0.86;
-  top: 27%;
-  border-color: rgba(96, 165, 250, 0.3);
-  animation-duration: 23s;
-  animation-delay: -8s;
+.hero-wave-field span:nth-child(2) {
+  --wave-y: 12%;
+  --wave-z: -3rem;
+  --wave-rotate: 2.5deg;
+  --wave-rotate-mid: -1.4deg;
+  --wave-rotate-end: 1.8deg;
+  top: 34%;
+  opacity: 0.76;
+  animation-duration: 17s;
+  animation-delay: -6s;
 }
 
-.hero-depth-waves span:nth-child(3) {
-  --wave-y: 12rem;
-  --wave-scale: 1.12;
-  top: 46%;
-  border-color: rgba(196, 181, 253, 0.22);
-  animation-duration: 28s;
-  animation-delay: -14s;
+.hero-wave-field span:nth-child(3) {
+  --wave-y: 22%;
+  --wave-z: -6rem;
+  --wave-rotate: -1deg;
+  --wave-rotate-mid: 0.7deg;
+  --wave-rotate-end: -0.7deg;
+  top: 51%;
+  opacity: 0.58;
+  animation-duration: 21s;
+  animation-delay: -11s;
 }
 
-@keyframes underwater-wave {
+@keyframes hero-wave-swell {
   0% {
-    transform: translate3d(-3%, var(--wave-y), 0) scaleY(var(--wave-scale));
+    transform: translate3d(-3%, var(--wave-y), var(--wave-z)) rotateX(61deg)
+      rotateZ(var(--wave-rotate)) scale3d(1.02, 0.86, 1);
   }
   50% {
-    transform: translate3d(2%, calc(var(--wave-y) - 1.3rem), 0)
-      scaleY(var(--wave-scale));
+    transform: translate3d(
+        1%,
+        calc(var(--wave-y) - 5%),
+        calc(var(--wave-z) + 2rem)
+      )
+      rotateX(54deg) rotateZ(var(--wave-rotate-mid)) scale3d(1.08, 1.08, 1);
   }
   100% {
-    transform: translate3d(5%, calc(var(--wave-y) + 0.6rem), 0)
-      scaleY(var(--wave-scale));
+    transform: translate3d(
+        4%,
+        calc(var(--wave-y) + 3%),
+        calc(var(--wave-z) - 1rem)
+      )
+      rotateX(66deg) rotateZ(var(--wave-rotate-end)) scale3d(1.04, 0.92, 1);
   }
 }
 
@@ -529,7 +596,7 @@ a {
 }
 
 .hero-hand-left {
-  left: 0;
+  left: 4vw;
   top: max(-8rem, -10vh);
   width: min(44vw, 49rem);
   aspect-ratio: 1540 / 1320;
@@ -538,7 +605,7 @@ a {
 }
 
 .hero-hand-right {
-  right: 0;
+  right: 4vw;
   bottom: max(-4rem, -5vh);
   width: min(43vw, 47rem);
   aspect-ratio: 1542 / 1002;
@@ -561,7 +628,7 @@ a {
 .hero-copy {
   position: relative;
   z-index: 2;
-  width: min(100%, 68rem);
+  width: min(100%, 58rem);
   transform: translateY(calc(var(--page-scroll) * 0.05px));
 }
 
@@ -594,7 +661,7 @@ a {
 .content-hero h1 {
   margin: 0;
   font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(3.4rem, 6vw, 6.2rem);
+  font-size: clamp(2.9rem, 5vw, 4.8rem);
   font-weight: 500;
   letter-spacing: -0.055em;
   line-height: 0.99;
@@ -739,7 +806,7 @@ a {
 .page-cta h2 {
   margin: 0;
   font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(2.8rem, 5.4vw, 5.8rem);
+  font-size: clamp(2.45rem, 4.2vw, 4.5rem);
   font-weight: 400;
   letter-spacing: -0.05em;
   line-height: 1.02;
@@ -1365,52 +1432,51 @@ a {
 
 .territory-map {
   position: relative;
-  background-image:
+  min-height: 0;
+  aspect-ratio: 4 / 3;
+  isolation: isolate;
+  background: #070912;
+}
+
+.territory-map::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
     radial-gradient(
-      circle at 58% 56%,
-      rgba(37, 99, 235, 0.18),
-      transparent 15rem
+      circle at 53% 53%,
+      transparent 35%,
+      rgba(5, 5, 5, 0.32) 100%
     ),
-    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  background-size:
-    auto,
-    2rem 2rem,
-    2rem 2rem;
+    linear-gradient(180deg, rgba(5, 5, 5, 0.04), rgba(5, 5, 5, 0.22));
+}
+
+.drc-map-art {
+  z-index: 0;
+  object-fit: cover;
+  filter: saturate(0.82) contrast(0.96) brightness(0.9);
 }
 
 .drc-map {
   position: absolute;
-  inset: 6% 4% 2%;
-  width: 92%;
-  height: 90%;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
   overflow: visible;
 }
 
-.drc-outline {
-  fill: rgba(37, 99, 235, 0.08);
-  stroke: rgba(165, 180, 252, 0.58);
-  stroke-width: 2;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 28px rgba(37, 99, 235, 0.28));
-}
-
-.drc-river {
-  fill: none;
-  stroke: rgba(96, 165, 250, 0.28);
-  stroke-width: 2;
-  stroke-dasharray: 5 9;
-}
-
 .map-dot {
-  fill: #c4b5fd;
-  filter: drop-shadow(0 0 8px #818cf8);
+  fill: #e0e7ff;
+  filter: drop-shadow(0 0 12px #818cf8);
 }
 
 .map-halo {
   fill: none;
-  stroke: rgba(129, 140, 248, 0.62);
-  stroke-width: 2;
+  stroke: rgba(129, 140, 248, 0.82);
+  stroke-width: 3;
   transform-box: fill-box;
   transform-origin: center;
   animation: map-spark 2.8s ease-out infinite;
@@ -1422,23 +1488,6 @@ a {
 
 .location-katanga .map-halo {
   animation-delay: -1.8s;
-}
-
-.map-location text {
-  fill: rgba(255, 255, 255, 0.78);
-  font-family: Inter, sans-serif;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-}
-
-.map-caption {
-  position: absolute;
-  left: 1.5rem;
-  top: 1.5rem;
-  color: rgba(255, 255, 255, 0.35);
-  font-size: 0.58rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 }
 
 @keyframes map-spark {
@@ -1989,6 +2038,15 @@ a {
     padding-top: 0.9rem;
   }
 
+  .brand-mark {
+    width: 9.5rem;
+    height: 3.3rem;
+  }
+
+  .mobile-nav {
+    padding-top: 6.5rem;
+  }
+
   .login-link,
   .header-cta {
     display: none;
@@ -1999,14 +2057,14 @@ a {
   }
 
   .hero {
-    min-height: 52rem;
+    min-height: 44rem;
     padding-top: 8rem;
     padding-bottom: 5rem;
   }
 
   .hero h1,
   .content-hero h1 {
-    font-size: clamp(2.8rem, 13vw, 4.8rem);
+    font-size: clamp(2.6rem, 11vw, 3.5rem);
   }
 
   .hero-hand-left {
@@ -2101,6 +2159,10 @@ a {
   .territory-map,
   .platform-abstract {
     min-height: 25rem;
+  }
+
+  .territory-map {
+    min-height: 0;
   }
 
   .quality-grid {
